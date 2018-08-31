@@ -48,7 +48,7 @@
         regPsd: '',
         logining: true,
         tipsTxt: '登录成功',
-        showTips: true
+        showTips: false
       }
     },
     computed: {
@@ -63,18 +63,36 @@
     methods:{
       loginTap(e){
         if(e.keyCode === 13){
-          this.logining = false
           if(this.loginCount == 'zan' && this.loginPsd == '123456'){
+            this.logining = false
             setTimeout(()=>{
-            this.logining = true
+              this.$message('登录成功')
+              this.logining = true
+              this.$router.push('manage')
             },1000)
           }else{
-
+            this.$message({
+              type:'warning',
+              message: '账号或密码错误'
+            })
           }
         }
       },
       loginBtnTap(){
-        this.logining = false
+        if(this.loginCount == 'zan' && this.loginPsd == '123456'){
+          this.logining = false
+          setTimeout(()=>{
+            this.$message('登录成功')
+            this.logining = true
+          },1000)
+        }else{
+          this.$message({
+            type:'warning',
+            message: '账号或密码错误'
+          })
+          this.loginCount = ''
+          this.loginPsd = ''
+        }
       },
       toReg(){
         this.RegPage = true
